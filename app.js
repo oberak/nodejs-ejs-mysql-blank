@@ -3,6 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var session = require('express-session');
+var flash = require('express-flash'); // for message
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -18,6 +20,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// plugins in node modules
+app.use('/js', express.static(__dirname + '/node_modules/jquery/dist'));
+app.use('/js', express.static(__dirname + '/node_modules/jquery-validation/dist'));
+
+// session : before routing
+app.use(session({
+    secret: 'ExpressEJSBlank@@', // any string for Security
+    resave: false,
+    saveUninitialized: true
+}));
+app.use(flash()); // after cookie, session
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -44,7 +58,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error' + ( (err.status == 404)?'-404':'' ) );
+  res.render('commons/error' + ( (err.status == 404)?'-404':'' ) );
 });
 
 module.exports = app;
