@@ -8,10 +8,10 @@
         <h1>Sign up</h1>
         <form id="signup" action="/signup" method="post">
             Name: <input type="text" name="name" value="" required><p>
-            Email: <input type="email" name="email" value="" required><p>
+            Email: <input type="email" name="email" id="email" value="" required><p>
             Password: <input type="password" name="password" value="" required><p>
             Confirm password: <input type="password" name="repassword" value="" required><p>
-            <input type="submit" name="" value="Signup">
+            <input type="button" name="" id="save" value="Signup">
         </form>
     </body>
     <script src="/js/jquery.min.js" charset="utf-8"></script>
@@ -38,6 +38,21 @@
                         pwcheck: "Type in uppercase letters, lowercase letters, and numbers."
                     }
                 },
+            });
+            $('#save').on('click',function(){
+                $.post(
+                    '/dupemail',
+                    { email: $('#email').val() }
+                ).done(function(res){
+                    if(res.status){
+                        alert(res.msg);
+                        $('#email').select();
+                    }else{
+                        $('#signup').submit();
+                    }
+                }).fail(function(err){
+                    alert(err.status + ' ' + err.responseText);
+                });
             });
             <% if(messages.warn) { %>
                 alert('<%=messages.warn%>');
