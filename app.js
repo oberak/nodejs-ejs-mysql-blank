@@ -33,6 +33,12 @@ app.use(session({
 }));
 app.use(flash()); // after cookie, session
 
+// Set session for EJS // after session, befor routing
+app.use(function(req, res, next) {
+  res.locals.user = req.session.user;
+  next();
+});
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
