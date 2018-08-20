@@ -11,6 +11,10 @@ var User = {
         var sql = "SELECT uid, email, password, name, role FROM users WHERE email = ?";
         return db.query(sql, [email], callback);
     },
+    findById: function(id, callback){
+        var sql = "SELECT uid, email, password, name, role, DATE_FORMAT(updated,'%e/%c/%Y %H:%i') AS updated FROM users WHERE uid = ?";
+        return db.query(sql, [id], callback);
+    },
     find: function(params, callback){
         var p = [];
         var sql = "SELECT uid, email, password, name, role, DATE_FORMAT(updated,'%e/%c/%Y %H:%i') AS updated FROM users";

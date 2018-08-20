@@ -12,7 +12,7 @@ router.use(function(req, res, next) {
     }
 });
 
-router.get('/',function(req, res){
+router.get('/',function(req, res, next){
     res.render('admin/home', {title:'Admin home'});
 });
 
