@@ -50,10 +50,14 @@
                 <% } %>
             </tbody>
         </table>
+        <a href="/admin/users/add">Add User</a>
     </body>
     <script type="text/javascript">
         <% if(search.role){ %>
             frm.role.value = '<%=search.role%>';
+        <% } %>
+        <% if(messages.info){ %>
+            alert('<%=messages.info%>')
         <% } %>
     </script>
 </html>

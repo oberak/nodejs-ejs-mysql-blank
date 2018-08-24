@@ -6,11 +6,25 @@
     </head>
     <body>
         <h1><%=title%></h1>
+        <form id="frm" class="" action="/admin/users/remove" method="post">
+            <input type="hidden" name="uid" value="<%=user.uid%>">
+        </form>
         Name : <%=user.name %><br>
         Email : <%=user.email %><br>
         Role : <%=user.role %><br>
         Updated : <%=user.updated %><br>
-
+        <a href="/admin/users/modify/<%=user.uid %>">Modify</a>
+        <a href="javascript:del()">Remove</a>
         <a href="/admin/users/list">Go list</a>
     </body>
+    <script type="text/javascript">
+        function del(){
+            if(confirm('Are you sure??')){
+                frm.submit();
+            }
+        }
+        <% if(messages.info){ %>
+            alert('<%=messages.info%>')
+        <% } %>
+    </script>
 </html>

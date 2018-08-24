@@ -34,6 +34,14 @@ var User = {
         }
         return db.query(sql, p, callback);
     },
+    update: function(params, callback){
+        var sql = "UPDATE users SET name=?, role=?, updated=NOW() WHERE uid=?";
+        return db.query(sql, params, callback);
+    },
+    remove: function(uid, callback){
+        var sql = "DELETE FROM users WHERE uid=?";
+        return db.query(sql, [uid], callback);
+    },
     compare: function(cleartext, encrypted){
         return bcrypt.compareSync(cleartext, encrypted);
     }
