@@ -23,8 +23,6 @@
                 frm.submit();
             }
         }
-        <% if(messages.info){ %>
-            alert('<%=messages.info%>')
-        <% } %>
+        <%- (messages.info) ? `alert('${messages.info}')` : '' %>
     </script>
 </html>

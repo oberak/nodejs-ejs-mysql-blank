@@ -12,11 +12,17 @@
             table, th, td {
                 border: 1px solid black;
             }
+            th{
+                background-color: cyan;
+                cursor: pointer;
+            }
         </style>
     </head>
     <body>
         <h1><%=title%></h1>
         <form id="frm" action="/admin/users/list" method="post">
+            <input type="hidden" name="sortField" id="sortField" value="<%=sort.field%>">
+            <input type="hidden" name="sortOrder" id="sortOrder" value="<%=sort.order%>">
             <select class="" name="role">
                 <option value="">All</option>
                 <option value="ADMIN">Admin</option>
@@ -29,10 +35,10 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Udated</th>
+                    <th data-sort="name">Name</th>
+                    <th data-sort="email">Email</th>
+                    <th data-sort="role">Role</th>
+                    <th data-sort="updated">Udated</th>
                 </tr>
             </thead>
             <tbody>
@@ -51,13 +57,25 @@
             </tbody>
         </table>
         <a href="/admin/users/add">Add User</a>
+
     </body>
+    <script src="/js/jquery.min.js" charset="utf-8"></script>
     <script type="text/javascript">
-        <% if(search.role){ %>
-            frm.role.value = '<%=search.role%>';
-        <% } %>
-        <% if(messages.info){ %>
-            alert('<%=messages.info%>')
-        <% } %>
+    $(function () {
+        $('th').click(function(){
+            if(!$(this).data('sort')) return false;
+            if( $('#sortField').val() == $(this).data('sort') ){
+                $('#sortOrder').val( ($('#sortOrder').val() == 'ASC' )?'DESC':'ASC') ;
+            }else{
+                $('#sortOrder').val('ASC');
+            }
+            $('#sortField').val($(this).data('sort'));
+            $('#frm').submit();
+        })
+        $('th[data-sort="<%=sort.field%>"]')
+            .append(' <%= (sort.order == 'ASC')? '\u25B2': '\u25BC' %>');
+        <%- (search.role) ? `frm.role.value = '${search.role}';` : '' %>
+        <%- (messages.info) ? `alert('${messages.info}')`:'' %>
+    });
     </script>
 </html>
